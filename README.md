@@ -11,9 +11,6 @@ With every task and event organized in one format, Studious empowers students to
 ## Storyboard
 ![ReminderAppStoryBoard](https://github.com/user-attachments/assets/f0594e1e-e9bb-4af3-8125-f2172eb89d6e)
 
-## Project Link
-[Studious App Git Project](https://github.com/oshah5727/ReminderApp)
-
 ## Functional Requirements
 
 ## Class Diagram
@@ -216,13 +213,17 @@ With every task and event organized in one format, Studious empowers students to
 
 
 ```
-## Members and Roles
+## Scrum Roles
 Opal Shah - Product Owner \
 Chris Vu - Scrum Master \
 Rohit Vijai - Developer \
-Jacob Dice - Developer 
+Jacob Dice - Developer \
+
+## Project Link
+[Studious App Git Project](https://github.com/oshah5727/ReminderApp)
+
 ## Kanban Board
 To stay up to date on current development and tasks, please refer to the "Projects" tab in GitHub!
-## Meeting Dates
+## Meeting Dates & Times
 Meeting 1: 2/11/26 at 2:00pm \
 Meeting 2: 2/13/26 at 1:40pm
