@@ -19,3 +19,5 @@ Rohit Vijai - Developer \
 Jacob Dice - Developer 
 ## Kanban Board
 To stay up to date on current development and tasks, please refer to the Projects tab of Github!
+## Meeting Dates
+Meeting 1: 2/13/26 1:40 pm
