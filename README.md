@@ -217,7 +217,7 @@ With every task and event organized in one format, Studious empowers students to
 Opal Shah - Product Owner \
 Chris Vu - Scrum Master \
 Rohit Vijai - Developer \
-Jacob Dice - Developer \
+Jacob Dice - Developer
 
 ## Project Link
 [Studious App Git Project](https://github.com/oshah5727/ReminderApp)
