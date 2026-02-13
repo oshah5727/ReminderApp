@@ -1,6 +1,12 @@
 # ReminderApp
 ## Introduction
-Many students have personal, work, and school calendars scattered across different online platforms. This makes it hard to manage their time effectively and keep track of their weekly schedules, and they can't be everywhere at once. Students may forget homework, run out of time to study, and save everything for the last minute as they don't have proper resources to view and manage their tasks and events. This is Studious, a web app that accepts keys from various calendar sources and merges them into one interface. Has support for Canvas, Google Calendar, Blackboard, and more. It will cohesively collect all upcoming events from each imported calendar and display them with working links, times, dates, and information. Users will be able to edit, add, or delete events as needed. Upcoming events will send the user a notification (text or email based on user settings) so they have consistent reminders for their obligations. These reminders can be changed in settings to be sent at certain intervals such as one day before, 10 minutes before, and so on. 
+Students need to manage personal, work, and academic schedules across multiple online platforms, which makes it difficult for them to manage time effectively and stay organized. With various dates spread out between different calendars, students may forget assignments, run out of time to study, or procrastinate until the last minute due to not having the ability to simultaneously view and manage multiple tasks and events. 
+
+Studious is a web based application designed to solve this problem by combining all of the students' calendars into one place. It supports Canvas, Google Calendar, Blackboard, and more. Studious automatically recognizes upcoming tasks and events and displays them in a cohesive format. This format includes links, times, dates, and details relevant to the task or event.
+
+Users can easily add, edit, or delete events at anytime to keep their schedules up-to-date and personalized. The app also provides users with customizable notifications via text or email, ensuring students recieve reminders about their upcoming tasks and events. The reminder settings can be changed at any time to match a user's preferences, allowing alerts to be sent at specific intervals, like one day before an event, ten minutes prior, or any time in between.
+
+With every task and event organized in one format, Studious empowers students to stay on top of their schedules, reduce stress, and manage their time more efficiently.
 
 ## Storyboard
 ![ReminderAppStoryBoard](https://github.com/user-attachments/assets/f0594e1e-e9bb-4af3-8125-f2172eb89d6e)
@@ -211,12 +217,12 @@ Many students have personal, work, and school calendars scattered across differe
 
 ```
 ## Members and Roles
-Shah Opal - Product Owner \
+Opal Shah - Product Owner \
 Chris Vu - Scrum Master \
 Rohit Vijai - Developer \
 Jacob Dice - Developer 
 ## Kanban Board
-To stay up to date on current development and tasks, please refer to the Projects tab of Github!
+To stay up to date on current development and tasks, please refer to the "Projects" tab in GitHub!
 ## Meeting Dates
-Meeting 1: 2/11/26 2:00 pm
-Meeting 2: 2/13/26 1:40 pm
+Meeting 1: 2/11/26 at 2:00pm
+Meeting 2: 2/13/26 at 1:40pm
