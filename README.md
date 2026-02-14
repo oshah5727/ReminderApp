@@ -13,6 +13,199 @@ With every task and event organized in one format, Studious empowers students to
 
 ## Functional Requirements
 
+# I want
+Calendar Aggregation & Display, Event Management, Secure Multi-Platform Authentication, and Customizable Notification System
+
+## So that I can
+View and manage all my academic and personal commitments in one unified, secure interface with timely reminders
+
+## I will elaborate each of these with several examples in this format:
+
+### Given
+User has connected their Canvas, Google Calendar, and Blackboard accounts with valid API keys
+
+### When
+User opens the main dashboard
+
+### Then
+All upcoming events from all three platforms are displayed in chronological order with titles, dates, times, and platform source indicators
+
+---
+
+### Given
+User has multiple overlapping events scheduled across different calendars
+
+### When
+System detects time conflicts during calendar sync
+
+### Then
+Dashboard displays a warning indicator highlighting the conflicting events with specific time overlap details
+
+---
+
+### Given
+User has an upcoming assignment due in Canvas within 24 hours
+
+### When
+The notification interval triggers based on user settings
+
+### Then
+User receives a text/email notification with the assignment name, due date, course name, and a direct clickable link to the Canvas assignment
+
+---
+
+### Given
+User wants to create a new study session event
+
+### When
+User fills out the event form with title, date, time, duration, and platform selection
+
+### Then
+Event is created on the selected platform and appears in the unified dashboard view with confirmation message
+
+---
+
+### Given
+User needs to change the time of an existing meeting
+
+### When
+User clicks edit on the event and updates the time from 2 PM to 4 PM
+
+### Then
+Event is updated on the original platform and changes reflect immediately in the dashboard with updated timestamp
+
+---
+
+### Given
+User creates a recurring weekly event for Monday office hours
+
+### When
+User sets recurrence pattern to repeat every Monday at 3 PM for 12 weeks
+
+### Then
+All 12 instances of the recurring event appear on appropriate dates in the calendar view
+
+---
+
+### Given
+User wants to delete a cancelled class
+
+### When
+User selects delete on the event and confirms deletion
+
+### Then
+Event is removed from the source platform and no longer appears in the unified view, with deletion confirmation shown
+
+---
+
+### Given
+New user creates an account and attempts to connect Google Calendar
+
+### When
+User clicks "Connect Google Calendar" button
+
+### Then
+User is redirected to Google OAuth consent screen, grants calendar read/write permissions, and is redirected back with encrypted access token stored securely in database
+
+---
+
+### Given
+User's Canvas API token expires after 30 days
+
+### When
+System attempts to fetch Canvas events and receives 401 Unauthorized response
+
+### Then
+User receives notification to reauthenticate with clear instructions, and system prompts user to reconnect Canvas with one-click reconnection option
+
+---
+
+### Given
+User stores API keys and calendar tokens in the database
+
+### When
+Data is written to persistent storage
+
+### Then
+All sensitive credentials are encrypted using AES-256 encryption, environment variables protect encryption keys, and tokens are stored with expiration timestamps
+
+---
+
+### Given
+Malicious actor attempts SQL injection through login form
+
+### When
+System receives suspicious input patterns like `'; DROP TABLE users;--`
+
+### Then
+Input is sanitized, parameterized queries prevent injection, attempt is logged with IP address for security monitoring
+
+---
+
+### Given
+User sets notification preferences to "1 day before" and "10 minutes before" for all events
+
+### When
+An exam is scheduled 24 hours from now
+
+### Then
+User receives first reminder via their preferred method (text/email) exactly 24 hours before with exam details, then again 10 minutes before the exam starts
+
+---
+
+### Given
+User has 8 events in a single day between 9 AM and 6 PM
+
+### When
+System evaluates notification schedule for that day at 8 AM
+
+### Then
+Smart notification logic consolidates reminders into a single morning digest listing all events plus individual urgent reminders sent 10 minutes before high-priority events to prevent notification spam
+
+---
+
+### Given
+User changes notification preference from email to SMS in settings
+
+### When
+User saves updated notification settings
+
+### Then
+All future notifications are delivered via SMS to the phone number on file and previous email preference is overridden with confirmation message
+
+---
+
+### Given
+Notification service like Twilio experiences downtime
+
+### When
+System attempts to send scheduled reminder at 9 AM
+
+### Then
+Failed notification is queued for retry with exponential backoff (1 min, 5 min, 15 min), and user is notified via alternate channel (email if SMS failed) if available
+
+---
+
+## Notes
+
+### Test Cases
+- Single/multiple calendar sources
+- Invalid API keys
+- Expired tokens
+- Rate limits
+- Network failures
+- Timezone handling across different geographic locations
+- OAuth flows for Google/Canvas/Blackboard
+- Token management and refresh cycles
+- CRUD operations for all event types
+- Recurring events (daily/weekly/monthly)
+- Platform synchronization delays
+- Security vulnerabilities (SQL injection, XSS, CSRF)
+- Encryption standards (AES-256, TLS 1.3)
+- Notification delivery across channels (email via SendGrid, SMS via Twilio)
+- Service failure retry mechanisms with exponential backoff
+
+
 ## Class Diagram
 <img width="2816" height="1536" alt="UML Diagram" src="https://github.com/user-attachments/assets/472b1424-f770-4d45-a2cf-3bcecc2467a2" />
 
