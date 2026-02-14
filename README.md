@@ -14,7 +14,6 @@ With every task and event organized in one format, Studious empowers students to
 ## Functional Requirements
 
 ## 1) Calendar Aggregation & Display
-### User Story
 **As a user, I want** Calendar Aggregation & Display  
 **So that I can** view all my academic and personal commitments in one unified interface.
 
@@ -43,7 +42,6 @@ With every task and event organized in one format, Studious empowers students to
 ---
 
 ## 2) Event Management
-### User Story
 **As a user, I want** Event Management  
 **So that I can** create, edit, and delete events across all connected calendars.
 
@@ -69,7 +67,6 @@ With every task and event organized in one format, Studious empowers students to
 ---
 
 ## 3) Secure Multi-Platform Authentication
-### User Story
 **As a user, I want** Secure Multi-Platform Authentication  
 **So that I can** safely connect multiple calendar sources without compromising my credentials.
 
@@ -95,7 +92,6 @@ With every task and event organized in one format, Studious empowers students to
 ---
 
 ## 4) Customizable Notification System
-### User Story
 **As a user, I want** a Customizable Notification System  
 **So that I can** receive timely reminders without notification fatigue.
 
