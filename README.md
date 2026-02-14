@@ -38,7 +38,6 @@ With every task and event organized in one format, Studious empowers students to
 - Security vulnerabilities (SQL injection, XSS, CSRF)
 - Encryption in transit and at rest
 
-
 ---
 
 ## 2) Event Management
@@ -63,7 +62,6 @@ With every task and event organized in one format, Studious empowers students to
 - Recurring event create/edit/delete
 - Platform-specific limitations and error handling
 
-
 ---
 
 ## 3) Secure Multi-Platform Authentication
@@ -87,7 +85,6 @@ With every task and event organized in one format, Studious empowers students to
 - Token expiration/refresh scenarios
 - Penetration testing (SQL injection, XSS, CSRF)
 - Encryption standard validation
-
 
 ---
 
