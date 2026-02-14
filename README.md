@@ -13,106 +13,95 @@ With every task and event organized in one format, Studious empowers students to
 
 ## Functional Requirements
 
-## 1) Calendar Aggregation & Display
-**As a user, I want** Calendar Aggregation & Display  
-**So that I can** view all my academic and personal commitments in one unified interface.
+## 1) Calendar Aggregation & Display 
 
-- **Given** I have connected my Canvas, Google Calendar, and Blackboard accounts with valid API keys  
-  **When** I open the main dashboard  
-  **Then** I see all upcoming events from all three platforms in chronological order with titles, dates, times, and platform source indicators.
+- **Given** my Canvas, Google Calendar, and Blackboard accounts are connected with valid access  
+  **When** I open the dashboard  
+  **Then** I see a single, chronological list of all upcoming events with title, date/time, and source platform.
 
-- **Given** I have an upcoming assignment due in Canvas within 24 hours  
-  **When** my configured notification interval triggers  
-  **Then** I receive a text/email notification with the assignment name, due date, and a direct link to the Canvas assignment.
+- **Given** a Canvas assignment is due within 24 hours and reminders are enabled  
+  **When** the reminder time I configured is reached  
+  **Then** I receive a notification (text/email) with the assignment name, due date/time, and a direct link.
 
-- **Given** I have multiple overlapping events scheduled across different calendars  
-  **When** the system syncs calendars and detects a time conflict  
-  **Then** the dashboard shows a warning indicator highlighting the conflicting events.
+- **Given** two or more events overlap in time across connected calendars  
+  **When** the system syncs and evaluates my schedule  
+  **Then** the conflicting events are flagged and shown together so I can identify the overlap.
 
 ### Notes / Test Coverage
-- Single vs. multiple calendar sources
-- Invalid API keys, expired tokens, token refresh/revocation
-- Rate limits, network failures
-- Timezone handling
-- OAuth flows for each platform
-- Security vulnerabilities (SQL injection, XSS, CSRF)
-- Encryption in transit and at rest
-
+- Verify merge rules: sorting, deduplication, and consistent timezone handling (including DST).
+- Validate sync behavior: initial import, incremental updates, and manual refresh.
+- Negative cases: invalid/expired credentials, revoked access, partial provider outages, rate limiting, and network failures.
+- Security checks: encryption in transit and at rest for tokens/keys; audit logs for connection changes.
+- Data quality cases: missing titles, all-day events, recurring series, and events with attachments/links.
 
 ---
 
-## 2) Event Management
-**As a user, I want** Event Management  
-**So that I can** create, edit, and delete events across all connected calendars.
+## 2) Event Management 
 
-- **Given** I want to create a new study session event  
-  **When** I fill out the event form with title, date, time, and platform selection and submit  
-  **Then** the event is created on the selected platform and appears in the unified dashboard view.
+- **Given** I am signed in and have at least one calendar connected  
+  **When** I create an event with a title, date/time, and selected calendar  
+  **Then** the event is saved to that calendar and appears in the unified view.
 
-- **Given** I need to change the time of an existing meeting  
-  **When** I edit the event and save the updated time  
-  **Then** the event updates on the original platform and the dashboard reflects the change.
+- **Given** an event exists in the unified calendar  
+  **When** I edit its details and save  
+  **Then** the changes are applied to the source calendar and reflected in the unified view.
 
-- **Given** I want a repeating weekly event  
-  **When** I set a recurrence pattern during event creation  
-  **Then** all instances of the recurring event appear on the appropriate dates in the calendar view.
+- **Given** I create an event with a weekly recurrence rule  
+  **When** I submit the event  
+  **Then** the repeating instances appear on future dates according to the recurrence settings.
 
 ### Notes / Test Coverage
-- CRUD operations per platform
-- Sync correctness after modifications
-- Recurring event create/edit/delete
-- Platform-specific limitations and error handling
-
+- CRUD validation: required fields, invalid dates/times, and editing read-only/provider-owned events.
+- Recurrence edge cases: editing one instance vs. the whole series, exceptions, and end dates.
+- Sync correctness: confirm updates propagate to the source and back into the unified view without duplication.
+- Concurrency: two edits at once, conflict resolution, and last-write-wins vs. prompting the user.
+- Platform constraints: fields not supported by some sources (location, descriptions, reminders).
 
 ---
 
-## 3) Secure Multi-Platform Authentication
-**As a user, I want** Secure Multi-Platform Authentication  
-**So that I can** safely connect multiple calendar sources without compromising my credentials.
+## 3) Secure Multi-Platform Authentication 
 
-- **Given** I am a new user connecting Google Calendar  
-  **When** I click “Connect Google Calendar” and complete authorization  
-  **Then** I am redirected back to the app and my encrypted access token is stored in the database.
+- **Given** I choose to connect Google Calendar  
+  **When** I complete the provider authorization and return to the app  
+  **Then** my connection is saved and the app can sync my Google events.
 
-- **Given** my Canvas API token has expired  
-  **When** the system fetches Canvas events and receives an unauthorized response  
-  **Then** I am notified to reauthenticate and prompted to reconnect.
+- **Given** my Canvas access is expired or revoked  
+  **When** the app attempts to sync and receives an unauthorized response  
+  **Then** I am prompted to reconnect Canvas and syncing is paused for that source until reconnection.
 
-- **Given** the app stores calendar tokens/keys for future sessions  
-  **When** credentials are saved  
-  **Then** they are encrypted using AES-256 and protected by secure environment-managed keys.
+- **Given** the app stores tokens/keys for future sessions  
+  **When** credentials are saved or retrieved  
+  **Then** they are protected (encrypted at rest and transmitted securely) and only used for syncing.
 
 ### Notes / Test Coverage
-- OAuth flows and permissions
-- Token expiration/refresh scenarios
-- Penetration testing (SQL injection, XSS, CSRF)
-- Encryption standard validation
-
+- Authorization scope checks: least-privilege permissions and clear consent messaging.
+- Token lifecycle: expiration, refresh, revocation, reconnect flow, and safe failure states.
+- Storage security: encryption at rest, key management via environment/secret storage, and access controls.
+- Threat modeling: SQL injection, XSS, CSRF, session hijacking, and rate-limit abuse.
+- Observability: log auth events (connect/disconnect/refresh failures) without logging sensitive secrets.
 
 ---
 
-## 4) Customizable Notification System
-**As a user, I want** a Customizable Notification System  
-**So that I can** receive timely reminders without notification fatigue.
+## 4) Customizable Notification System 
 
-- **Given** I set reminders to “1 day before” and “10 minutes before”  
-  **When** an exam is scheduled 24 hours from now  
-  **Then** I receive a reminder 24 hours before and another 10 minutes before the exam.
+- **Given** I set reminder offsets (e.g., 1 day and 10 minutes) and select email or SMS  
+  **When** an event reaches each offset time  
+  **Then** I receive a reminder at each configured time through my chosen channel.
 
-- **Given** I have 8 events in a single day  
-  **When** the system prepares reminders for that day  
-  **Then** reminders are consolidated into a digest plus urgent reminders as needed to reduce spam.
+- **Given** I have many events on the same day  
+  **When** reminders are generated for that day  
+  **Then** reminders are grouped into a digest when appropriate while urgent reminders still send individually.
 
-- **Given** the notification service experiences downtime  
-  **When** the system attempts to send a scheduled reminder and it fails  
-  **Then** the reminder is queued for retry with exponential backoff and an alternate channel is used if available.
+- **Given** the notification provider fails to deliver a message  
+  **When** the system detects the send failure  
+  **Then** the message is retried using backoff and an alternate channel is used if I have one enabled.
 
 ### Notes / Test Coverage
-- Email vs. SMS delivery
-- Timezone correctness
-- Suppression/digest logic
-- Failure handling + retry behavior
-
+- Timing correctness: timezone, DST changes, and reminders for all-day events.
+- Channel behavior: email vs. SMS formatting, opt-in/opt-out, and invalid destination handling.
+- Spam controls: digest thresholds, suppression rules, and user-configurable quiet hours.
+- Reliability: retries, dead-letter queue behavior, idempotency (no duplicate sends), provider downtime.
+- User settings: changing offsets/channels and ensuring changes apply to future notifications only (or clearly defined behavior).
 
 ## Class Diagram
 <img width="2816" height="1536" alt="UML Diagram" src="https://github.com/user-attachments/assets/472b1424-f770-4d45-a2cf-3bcecc2467a2" />
