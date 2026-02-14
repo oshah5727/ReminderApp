@@ -13,187 +13,110 @@ With every task and event organized in one format, Studious empowers students to
 
 ## Functional Requirements
 
-## I want
-Calendar Aggregation & Display
+## 1) Calendar Aggregation & Display
+### User Story
+**As a user, I want** Calendar Aggregation & Display  
+**So that I can** view all my academic and personal commitments in one unified interface.
 
-## So that I can
-View all my academic and personal commitments in one unified interface
+- **Given** I have connected my Canvas, Google Calendar, and Blackboard accounts with valid API keys  
+  **When** I open the main dashboard  
+  **Then** I see all upcoming events from all three platforms in chronological order with titles, dates, times, and platform source indicators.
 
-## Elaborate each of these with several examples in this format:
+- **Given** I have an upcoming assignment due in Canvas within 24 hours  
+  **When** my configured notification interval triggers  
+  **Then** I receive a text/email notification with the assignment name, due date, and a direct link to the Canvas assignment.
 
-### Given
-User has connected their Canvas, Google Calendar, and Blackboard accounts with valid API keys
+- **Given** I have multiple overlapping events scheduled across different calendars  
+  **When** the system syncs calendars and detects a time conflict  
+  **Then** the dashboard shows a warning indicator highlighting the conflicting events.
 
-### When
-User opens the main dashboard
+### Notes / Test Coverage
+- Single vs. multiple calendar sources
+- Invalid API keys, expired tokens, token refresh/revocation
+- Rate limits, network failures
+- Timezone handling
+- OAuth flows for each platform
+- Security vulnerabilities (SQL injection, XSS, CSRF)
+- Encryption in transit and at rest
 
-### Then
-All upcoming events from all three platforms are displayed in chronological order with titles, dates, times, and platform source indicators
-
----
-
-### Given
-User has an upcoming assignment due in Canvas within 24 hours
-
-### When
-The notification interval triggers based on user settings
-
-### Then
-User receives a text/email notification with the assignment name, due date, and a direct link to the Canvas assignment
-
----
-
-### Given
-User has multiple overlapping events scheduled across different calendars
-
-### When
-System detects time conflicts during calendar sync
-
-### Then
-Dashboard displays a warning indicator highlighting the conflicting events
 
 ---
 
-## Notes:
-- Test cases: single/multiple calendar sources, invalid API keys, expired tokens, rate limits, network failures, timezone handling, OAuth flows for each platform, token expiration/revocation/refresh, security vulnerabilities (SQL injection, XSS, CSRF), encryption at rest and in transit
+## 2) Event Management
+### User Story
+**As a user, I want** Event Management  
+**So that I can** create, edit, and delete events across all connected calendars.
+
+- **Given** I want to create a new study session event  
+  **When** I fill out the event form with title, date, time, and platform selection and submit  
+  **Then** the event is created on the selected platform and appears in the unified dashboard view.
+
+- **Given** I need to change the time of an existing meeting  
+  **When** I edit the event and save the updated time  
+  **Then** the event updates on the original platform and the dashboard reflects the change.
+
+- **Given** I want a repeating weekly event  
+  **When** I set a recurrence pattern during event creation  
+  **Then** all instances of the recurring event appear on the appropriate dates in the calendar view.
+
+### Notes / Test Coverage
+- CRUD operations per platform
+- Sync correctness after modifications
+- Recurring event create/edit/delete
+- Platform-specific limitations and error handling
+
 
 ---
 
-## I want
-Event Management
+## 3) Secure Multi-Platform Authentication
+### User Story
+**As a user, I want** Secure Multi-Platform Authentication  
+**So that I can** safely connect multiple calendar sources without compromising my credentials.
 
-## So that I can
-Create, edit, and delete events across all connected calendars
+- **Given** I am a new user connecting Google Calendar  
+  **When** I click “Connect Google Calendar” and complete authorization  
+  **Then** I am redirected back to the app and my encrypted access token is stored in the database.
 
-## Elaborate each of these with several examples in this format:
+- **Given** my Canvas API token has expired  
+  **When** the system fetches Canvas events and receives an unauthorized response  
+  **Then** I am notified to reauthenticate and prompted to reconnect.
 
-### Given
-User wants to create a new study session event
+- **Given** the app stores calendar tokens/keys for future sessions  
+  **When** credentials are saved  
+  **Then** they are encrypted using AES-256 and protected by secure environment-managed keys.
 
-### When
-User fills out the event form with title, date, time, and platform selection
+### Notes / Test Coverage
+- OAuth flows and permissions
+- Token expiration/refresh scenarios
+- Penetration testing (SQL injection, XSS, CSRF)
+- Encryption standard validation
 
-### Then
-Event is created on the selected platform and appears in the unified dashboard view
-
----
-
-### Given
-User needs to change the time of an existing meeting
-
-### When
-User clicks edit on the event and updates the time
-
-### Then
-Event is updated on the original platform and changes reflect immediately in the dashboard
 
 ---
 
-### Given
-User creates a recurring weekly event
+## 4) Customizable Notification System
+### User Story
+**As a user, I want** a Customizable Notification System  
+**So that I can** receive timely reminders without notification fatigue.
 
-### When
-User sets recurrence pattern in event creation form
+- **Given** I set reminders to “1 day before” and “10 minutes before”  
+  **When** an exam is scheduled 24 hours from now  
+  **Then** I receive a reminder 24 hours before and another 10 minutes before the exam.
 
-### Then
-All instances of the recurring event appear on appropriate dates in the calendar view
+- **Given** I have 8 events in a single day  
+  **When** the system prepares reminders for that day  
+  **Then** reminders are consolidated into a digest plus urgent reminders as needed to reduce spam.
 
----
+- **Given** the notification service experiences downtime  
+  **When** the system attempts to send a scheduled reminder and it fails  
+  **Then** the reminder is queued for retry with exponential backoff and an alternate channel is used if available.
 
-## Notes:
-- Test CRUD operations for each platform, verify synchronization after modifications, test recurring event operations, handle platform-specific limitations
+### Notes / Test Coverage
+- Email vs. SMS delivery
+- Timezone correctness
+- Suppression/digest logic
+- Failure handling + retry behavior
 
----
-
-## I want
-Secure Multi-Platform Authentication
-
-## So that I can
-Safely connect my various calendar sources without compromising my credentials
-
-## Elaborate each of these with several examples in this format:
-
-### Given
-New user creates an account and attempts to connect Google Calendar
-
-### When
-User clicks "Connect Google Calendar"
-
-### Then
-User is redirected to Google OAuth consent screen, grants permissions, and is redirected back with encrypted access token stored in database
-
----
-
-### Given
-User's Canvas API token expires after 30 days
-
-### When
-System attempts to fetch Canvas events and receives 401 Unauthorized response
-
-### Then
-User receives notification to reauthenticate, and system prompts user to reconnect
-
----
-
-### Given
-User stores API keys and calendar tokens in the database
-
-### When
-Data is written to persistent storage
-
-### Then
-All sensitive credentials are encrypted using AES-256 encryption and environment variables protect encryption keys
-
----
-
-## Notes:
-- Test OAuth flows, simulate token expiration scenarios, penetration testing for vulnerabilities, verify encryption standards
-
----
-
-## I want
-Customizable Notification System
-
-## So that I can
-Receive timely reminders without notification fatigue
-
-## Elaborate each of these with several examples in this format:
-
-### Given
-User sets notification preferences to "1 day before" and "10 minutes before" for all events
-
-### When
-An exam is scheduled 24 hours from now
-
-### Then
-User receives first reminder via their preferred method (text/email) exactly 24 hours before, then again 10 minutes before the exam
-
----
-
-### Given
-User has 8 events in a single day
-
-### When
-System evaluates notification schedule for that day
-
-### Then
-Smart notification logic consolidates reminders into a morning digest plus individual urgent reminders to prevent spam
-
----
-
-### Given
-Notification service experiences downtime
-
-### When
-System attempts to send scheduled reminder
-
-### Then
-Failed notification is queued for retry with exponential backoff, and user is notified via alternate channel if available
-
----
-
-## Notes:
-- Test notification delivery across channels (email, SMS), verify timezone handling, test suppression logic, simulate service failures and retry mechanisms
 
 ## Class Diagram
 <img width="2816" height="1536" alt="UML Diagram" src="https://github.com/user-attachments/assets/472b1424-f770-4d45-a2cf-3bcecc2467a2" />
