@@ -2,16 +2,34 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Studious - Login</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #fef8ec; color: #3e2410; }
+        nav { background-color: #2f6f3a; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        nav a { color: #f7f1e7; text-decoration: none; font-weight: bold; }
+        .container { max-width: 500px; margin: 3rem auto; background: #fffdf8; border: 1px solid #d6ad7c; border-radius: 8px; padding: 2rem; box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+        h1 { text-align: center; margin-bottom: 1rem; color: #5f3b1a; }
+        form { display: grid; gap: 1rem; }
+        label { color: #5f3b1a; font-weight: 600; }
+        input { width: 100%; padding: 0.6rem; border-radius: 4px; border: 1px solid #b29273; background: #fffdf8; }
+        button { background-color: #5f3b1a; border: none; color: #fffdf8; padding: 0.7rem; border-radius: 4px; cursor: pointer; }
+        button:hover { background-color: #4b2d13; }
+    </style>
 </head>
 <body>
-    <h1>Login</h1>
-    <form action="/dashboard" method="get">
-        <label>Username:</label><br>
-        <input type="text" name="username" placeholder="Username"><br><br>
-        <label>Password:</label><br>
-        <input type="password" name="password" placeholder="Password"><br><br>
-        <button type="submit">Login</button>
-    </form>
+    <nav>
+        <a href="/">Studious</a>
+        <div><a href="/signup" style="padding:0.4rem 0.7rem; background:#5f3b1a; color:#fffdf8; border-radius:3px; text-decoration:none;">Sign Up</a></div>
+    </nav>
+    <div class="container">
+        <h1>Login</h1>
+        <form action="/dashboard" method="get">
+            <div><label>Username</label><input type="text" name="username" placeholder="Username"></div>
+            <div><label>Password</label><input type="password" name="password" placeholder="Password"></div>
+            <button type="submit">Login</button>
+        </form>
+    </div>
 </body>
 </html>
