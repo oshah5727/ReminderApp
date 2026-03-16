@@ -103,7 +103,12 @@ With every task and event organized in one format, Studious empowers students to
 **Notes:**
 - Unit tests should include: multiple offsets per event, timezone/DST correctness, provider downtime + retries, and rescheduling reminders when an event time changes.
 
-## Class Diagram
+### 5) Running the Application Prototype
+1. Clone the repository into the editor of your choice
+2. Open the terminal and change the directory to the project folder containing the pom.xml file
+3. Run mvn -f studious/pom.xml spring-boot:run
+Note: Java requirement version 18.0+
+
 <img width="2816" height="1536" alt="UML Diagram" src="https://github.com/user-attachments/assets/472b1424-f770-4d45-a2cf-3bcecc2467a2" />
 
 ## JSON Schema

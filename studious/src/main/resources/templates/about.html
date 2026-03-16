@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studious - About Us</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        nav {
+            background-color: #2f6f3a;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-brand {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #f7f1e7;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #faede2;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #d8ad6a;
+        }
+
+        .nav-right {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .btn-login {
+            background-color: transparent;
+            color: #faede2;
+            border: 2px solid #f7f1e7;
+        }
+
+        .btn-login:hover {
+            background-color: #f7f1e7;
+            color: #2f6f3a;
+        }
+
+        .btn-signup {
+            background-color: #5f3b1a;
+            color: #f7f1e7;
+        }
+
+        .btn-signup:hover {
+            background-color: #4b2d13;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #3e2410;
+            margin-bottom: 2rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            text-align: justify;
+            color: #4b2d13;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-left">
+            <a href="/" class="nav-brand">Studious</a>
+            <ul class="nav-links">
+                <li><a href="/about">About Us</a></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
+        </div>
+        <div class="nav-right">
+            <a href="/login" class="btn btn-login">Login</a>
+            <a href="/signup" class="btn btn-signup">Sign Up</a>
+        </div>
+    </nav>
+
+    <main>
+        <h1>About Us</h1>
+        <p>
+            Studious is dedicated to helping students, professionals, and busy individuals manage their 
+            schedules effectively. Our mission is to provide a simple, intuitive platform where you can 
+            consolidate all your calendars and commitments in one place.
+        </p>
+        <p>
+            We understand the challenges of juggling multiple calendars, time zones, and scheduling systems. 
+            That's why we built Studious to be flexible, powerful, and easy to use.
+        </p>
+        <p>
+            Learn more about our vision and team on this page. We're committed to continuous improvement 
+            and welcome feedback from our users.
+        </p>
+    </main>
+</body>
+</html>
