@@ -49,6 +49,7 @@
             color: #faede2;
             text-decoration: none;
             transition: color 0.3s ease;
+            font-size: 1rem;
         }
 
         .nav-links a:hover {
@@ -67,7 +68,7 @@
             cursor: pointer;
             text-decoration: none;
             transition: all 0.3s ease;
-            font-size: 0.9rem;
+            font-size: 1rem;
         }
 
         .btn-login {
@@ -165,15 +166,17 @@
 <body>
     <nav>
         <div class="nav-left">
-            <a href="/" class="nav-brand">Studious</a>
+            <a href="/" class="nav-brand" style="display: flex; align-items: center; gap: 0.5rem;">
+                <img src="/images/StudiousLogo.png" alt="Studious Logo" style="height: 40px; width: auto; vertical-align: middle;">
+            </a>
             <ul class="nav-links">
                 <li><a href="/about">About Us</a></li>
                 <li><a href="/contact">Contact</a></li>
             </ul>
         </div>
         <div class="nav-right">
-            <a href="/login" class="btn btn-login">Login</a>
-            <a href="/signup" class="btn btn-signup">Sign Up</a>
+            <a href="/auth/login" class="btn btn-login">Login</a>
+            <a href="/auth/signup" class="btn btn-signup">Sign Up</a>
         </div>
     </nav>
 

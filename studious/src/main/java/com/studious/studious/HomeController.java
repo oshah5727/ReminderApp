@@ -11,11 +11,6 @@ public class HomeController {
         return "homepage";
     }
 
-    @GetMapping("/login")
-    public String login() {
-        return "login";
-    }
-
     @GetMapping("/about")
     public String about() {
         return "about";
@@ -24,11 +19,6 @@ public class HomeController {
     @GetMapping("/contact")
     public String contact() {
         return "contact";
-    }
-
-    @GetMapping("/signup")
-    public String signup() {
-        return "signup";
     }
 
 }
