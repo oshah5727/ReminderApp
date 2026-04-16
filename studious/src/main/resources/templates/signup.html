@@ -53,6 +53,7 @@
             color: #faede2;
             text-decoration: none;
             transition: color 0.3s ease;
+            font-size: 1rem;
         }
 
         .nav-links a:hover {
@@ -71,7 +72,7 @@
             cursor: pointer;
             text-decoration: none;
             transition: all 0.3s ease;
-            font-size: 0.9rem;
+            font-size: 1rem;
         }
 
         .btn-login {
@@ -205,8 +206,8 @@
             </ul>
         </div>
         <div class="nav-right">
-            <a href="/login" class="btn btn-login">Login</a>
-            <a href="/signup" class="btn btn-signup">Sign Up</a>
+            <a href="/auth/login" class="btn btn-login">Login</a>
+            <a href="/auth/signup" class="btn btn-signup">Sign Up</a>
         </div>
     </nav>
 
@@ -215,7 +216,7 @@
             <h1>Create Account</h1>
             <p>Join Studious and manage all your schedules in one place!</p>
 
-            <form>
+            <form action="/calendar" method="get">
                 <div class="form-group">
                     <label for="firstname">First Name</label>
                     <input type="text" id="firstname" name="firstname" placeholder="John" required>
@@ -249,11 +250,20 @@
                     <input type="password" id="confirmpassword" name="confirmpassword" placeholder="Re-enter your password" required>
                 </div>
 
+                <!-- TODO: Implement database user creation logic here -->
+                <!-- 
+                     - Validate all input fields
+                     - Check if username/email already exists
+                     - Hash password before storing
+                     - Create user in database
+                     - Create user session
+                     - Handle signup errors
+                -->
                 <button type="submit" class="signup-btn">Create Account</button>
             </form>
 
             <div class="login-link">
-                Already have an account? <a href="/login">Login here</a>
+                Already have an account? <a href="/auth/login">Login here</a>
             </div>
         </div>
     </main>

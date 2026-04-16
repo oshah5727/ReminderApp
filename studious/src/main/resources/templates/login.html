@@ -5,31 +5,154 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Studious - Login</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #fef8ec; color: #3e2410; }
-        nav { background-color: #2f6f3a; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
-        nav a { color: #f7f1e7; text-decoration: none; font-weight: bold; }
-        .container { max-width: 500px; margin: 3rem auto; background: #fffdf8; border: 1px solid #d6ad7c; border-radius: 8px; padding: 2rem; box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
-        h1 { text-align: center; margin-bottom: 1rem; color: #5f3b1a; }
-        form { display: grid; gap: 1rem; }
-        label { color: #5f3b1a; font-weight: 600; }
-        input { width: 100%; padding: 0.6rem; border-radius: 4px; border: 1px solid #b29273; background: #fffdf8; }
-        button { background-color: #5f3b1a; border: none; color: #fffdf8; padding: 0.7rem; border-radius: 4px; cursor: pointer; }
-        button:hover { background-color: #4b2d13; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fef8ec;
+            color: #3e2410;
+        }
+
+        nav {
+            background-color: #2f6f3a;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-brand {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #f7f1e7;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #faede2;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .nav-links a:hover {
+            color: #d8ad6a;
+        }
+
+        .nav-right {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .btn-signup {
+            background-color: #5f3b1a;
+            color: #f7f1e7;
+        }
+
+        .btn-signup:hover {
+            background-color: #4b2d13;
+        }
+        .container {
+            max-width: 500px;
+            margin: 3rem auto;
+            background: #fffdf8;
+            border: 1px solid #d6ad7c;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #5f3b1a;
+        }
+
+        form {
+            display: grid;
+            gap: 1rem;
+        }
+
+        label {
+            color: #5f3b1a;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.6rem;
+            border-radius: 4px;
+            border: 1px solid #b29273;
+            background: #fffdf8;
+        }
+
+        button {
+            background-color: #5f3b1a;
+            border: none;
+            color: #fffdf8;
+            padding: 0.7rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #4b2d13;
+        }
     </style>
 </head>
 <body>
     <nav>
-        <a href="/" style="display: flex; align-items: center; gap: 0.5rem;" class="nav-brand">
-            <img src="/images/StudiousLogo.png" alt="Studious Logo" style="height: 40px; width: auto; vertical-align: middle;">
-        </a>
-        <div><a href="/signup" style="padding:0.4rem 0.7rem; background:#5f3b1a; color:#fffdf8; border-radius:3px; text-decoration:none;">Sign Up</a></div>
+        <div class="nav-left">
+            <a href="/" style="display: flex; align-items: center; gap: 0.5rem;" class="nav-brand">
+                <img src="/images/StudiousLogo.png" alt="Studious Logo" style="height: 40px; width: auto; vertical-align: middle;">
+            </a>
+            <ul class="nav-links">
+                <li><a href="/about">About Us</a></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
+        </div>
+        <div class="nav-right">
+            <a href="/auth/signup" class="btn btn-signup">Sign Up</a>
+        </div>
     </nav>
     <div class="container">
         <h1>Login</h1>
-        <form action="/dashboard" method="get">
+        <form action="/calendar" method="get">
             <div><label>Username</label><input type="text" name="username" placeholder="Username"></div>
             <div><label>Password</label><input type="password" name="password" placeholder="Password"></div>
+            <!-- TODO: Implement database authentication logic here -->
+            <!--
+                 - Validate username and password against database
+                 - Create user session
+                 - Handle login errors
+            -->
             <button type="submit">Login</button>
         </form>
     </div>
