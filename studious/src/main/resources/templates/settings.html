@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -255,13 +255,13 @@
                 <div class="integration-card">
                     <div class="integration-info">
                         <h3>Google Calendar</h3>
-                        <p class="status disconnected">Not Connected</p>
+                        <p class="status" th:classappend="${googleConnected} ? 'connected' : 'disconnected'" 
+                           th:text="${googleConnected} ? 'Connected' : 'Not Connected'">Not Connected</p>
                         <small>Sync your Google Calendar events to view all your appointments in one place</small>
                     </div>
                     <div>
-                        <!-- TODO: Implement Google OAuth flow -->
-                        <!-- <button class="btn-disconnect">Disconnect</button> -->
-                        <button class="btn-connect">Connect</button>
+                        <a th:if="${!googleConnected}" href="/auth/google" class="btn-connect">Connect</a>
+                        <a th:if="${googleConnected}" href="/auth/google/disconnect" class="btn-disconnect">Disconnect</a>
                     </div>
                 </div>
 
@@ -269,13 +269,13 @@
                 <div class="integration-card">
                     <div class="integration-info">
                         <h3>Canvas LMS</h3>
-                        <p class="status disconnected">Not Connected</p>
+                        <p class="status" th:classappend="${canvasConnected} ? 'connected' : 'disconnected'" 
+                           th:text="${canvasConnected} ? 'Connected' : 'Not Connected'">Not Connected</p>
                         <small>Import assignments and due dates from Canvas to stay organized</small>
                     </div>
                     <div>
-                        <!-- TODO: Implement Canvas API integration switch between buttons once 'connected' -->
-                        <!-- <button class="btn-disconnect">Disconnect</button> -->
-                        <button class="btn-connect">Connect</button>
+                        <button th:if="${!canvasConnected}" class="btn-connect">Connect</button>
+                        <button th:if="${canvasConnected}" class="btn-disconnect">Disconnect</button>
                     </div>
                 </div>
             </div>
