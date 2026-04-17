@@ -2,6 +2,6 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs/CopilotSnapshots/6D4FB4409D19254CBDBB63AD3C86F2F6
-/.vs/ReminderApp/CopilotIndices/18.5.39150.21849
-/.vs/ReminderApp.slnx/copilot-chat/0d5c2028/sessions
+# Spring Boot - Keep credentials local
+studious/src/main/resources/application.properties
+studious/tokens/
