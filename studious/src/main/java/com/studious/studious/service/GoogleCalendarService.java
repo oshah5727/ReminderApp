@@ -55,23 +55,6 @@ public class GoogleCalendarService {
      * TODO: Implement when ready to fetch events
      */
     public List<Event> getEvents(String userId) throws IOException {
-        // This is a placeholder - will implement full event fetching later
-        // Calendar service = new Calendar.Builder(
-        //     new NetHttpTransport(),
-        //     GsonFactory.getDefaultInstance(),
-        //     flow.loadCredential(userId))
-        //     .setApplicationName("Studious")
-        //     .build();
-        // 
-        // Events events = service.events().list("primary")
-        //     .setMaxResults(100)
-        //     .setTimeMin(new DateTime(System.currentTimeMillis()))
-        //     .setOrderBy("startTime")
-        //     .setSingleEvents(true)
-        //     .execute();
-        // 
-        // return events.getItems();
-
         return null;
     }
 

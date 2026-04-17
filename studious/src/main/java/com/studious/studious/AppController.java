@@ -24,7 +24,6 @@ public class AppController {
 
     @GetMapping("/settings")
     public String settings(Model model) {
-        // TODO: Replace "default-user" with actual logged-in user ID when auth is implemented
         String userId = "default-user";
 
         try {
@@ -35,16 +34,9 @@ public class AppController {
             model.addAttribute("googleConnected", false);
         }
 
-        // TODO: Add Canvas connection status check when implemented
         model.addAttribute("canvasConnected", false);
 
         return "settings";
     }
-
-    // TODO: Add API endpoints for calendar operations
-    // @PostMapping("/api/events")
-    // @GetMapping("/api/events")
-    // @DeleteMapping("/api/events/{id}")
-    // @GetMapping("/api/sync-calendars")
 
 }
