@@ -1,11 +1,13 @@
 package com.studious.studious;
 
+import com.studious.studious.service.CanvasService;
 import com.studious.studious.service.GoogleCalendarService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 // Handles routing for the main app pages
 @Controller
@@ -13,6 +15,9 @@ public class AppController {
 
     @Autowired
     private GoogleCalendarService googleCalendarService;
+
+    @Autowired
+    private CanvasService canvasService;
 
     // Returns the calendar view
     @GetMapping("/calendar")
@@ -44,9 +49,31 @@ public class AppController {
         }
 
         // Canvas integration not yet implemented
-        model.addAttribute("canvasConnected", false);
+        model.addAttribute("canvasConnected", canvasService.isConnected());
 
         return "settings";
+    }
+
+    // Enables the Canvas integration using the token configured in application.properties
+    @PostMapping("/canvas/connect")
+    public String canvasConnect() {
+        try {
+            canvasService.connect();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "redirect:/settings";
+    }
+
+    // Removes the saved Canvas token
+    @PostMapping("/canvas/disconnect")
+    public String canvasDisconnect() {
+        try {
+            canvasService.disconnect();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "redirect:/settings";
     }
 
 }
