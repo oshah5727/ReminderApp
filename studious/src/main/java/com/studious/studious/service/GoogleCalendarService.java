@@ -2,7 +2,9 @@ package com.studious.studious.service;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeRequestUrl;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
+import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
@@ -32,15 +34,21 @@ public class GoogleCalendarService {
     }
 
     /**
-     * Exchange authorization code for tokens and store them
+     * Exchange authorization code for tokens and store them.
+     * Returns the authenticated user's email extracted from the ID token.
      */
-    public void handleCallback(String code, String userId) throws IOException {
+    public String handleCallback(String code) throws IOException {
         GoogleTokenResponse tokenResponse = flow.newTokenRequest(code)
                 .setRedirectUri(config.getRedirectUri())
                 .execute();
 
-        // Store the credential for the user
+        // Extract user identity from the ID token returned by Google
+        GoogleIdToken idToken = GoogleIdToken.parse(GsonFactory.getDefaultInstance(), tokenResponse.getIdToken());
+        String userId = idToken.getPayload().getEmail();
+
+        // Store the credential keyed by the user's email
         flow.createAndStoreCredential(tokenResponse, userId);
+        return userId;
     }
 
     /**

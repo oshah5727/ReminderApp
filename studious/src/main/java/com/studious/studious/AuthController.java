@@ -1,6 +1,7 @@
 package com.studious.studious;
 
 import com.studious.studious.service.GoogleCalendarService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,6 +50,7 @@ public class AuthController {
     public String googleCallback(
             @RequestParam(value = "code", required = false) String code,
             @RequestParam(value = "error", required = false) String error,
+            HttpSession session,
             RedirectAttributes redirectAttributes) {
 
         if (error != null) {
@@ -63,9 +65,8 @@ public class AuthController {
         }
 
         try {
-            // TODO: Replace "default-user" with actual logged-in user ID when auth is implemented
-            String userId = "default-user";
-            googleCalendarService.handleCallback(code, userId);
+            String userId = googleCalendarService.handleCallback(code);
+            session.setAttribute("userId", userId);
             redirectAttributes.addFlashAttribute("success", "Google Calendar connected successfully!");
         } catch (Exception e) {
             e.printStackTrace();
@@ -88,11 +89,15 @@ public class AuthController {
      * Disconnect Google Calendar
      */
     @GetMapping("/google/disconnect")
-    public String googleDisconnect(RedirectAttributes redirectAttributes) {
+    public String googleDisconnect(HttpSession session, RedirectAttributes redirectAttributes) {
+        String userId = (String) session.getAttribute("userId");
+        if (userId == null) {
+            redirectAttributes.addFlashAttribute("error", "Not signed in");
+            return "redirect:/settings";
+        }
         try {
-            // TODO: Replace "default-user" with actual logged-in user ID when auth is implemented
-            String userId = "default-user";
             googleCalendarService.disconnect(userId);
+            session.removeAttribute("userId");
             redirectAttributes.addFlashAttribute("success", "Google Calendar disconnected successfully");
         } catch (Exception e) {
             e.printStackTrace();

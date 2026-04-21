@@ -15,6 +15,12 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+// This configuration class sets up the Google OAuth 2.0 flow for the application. 
+// It reads the necessary credentials and settings from the application properties, 
+// creates a GoogleAuthorizationCodeFlow bean, and provides a method to retrieve the redirect URI. 
+// The tokens will be stored in a local directory named "tokens".
+// Documentation: https://developers.google.com/api-client-library/java/google-api-java-client/oauth2
+
 @Configuration
 public class GoogleOAuthConfig {
 
