@@ -3,6 +3,8 @@ package com.studious.studious;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+// Handles routing for the home page and static pages like about/contact
+
 @Controller
 public class HomeController {
 
