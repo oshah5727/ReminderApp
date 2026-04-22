@@ -9,3 +9,6 @@
 # Spring Boot - Keep credentials local
 studious/src/main/resources/application.properties
 studious/tokens/
+
+# H2 database files (runtime data, not source code)
+studious/data/
