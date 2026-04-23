@@ -31,9 +31,6 @@ With every task and event organized in one format, Studious empowers students to
   **When** the system syncs and receives an unauthorized/failed response from that source  
   **Then** events from valid sources still display, the failing source shows a clear “reconnect required” message, and the app provides a reconnect action without blocking access to my unified schedule.
 
-**Notes:**
-- Unit tests should include: multiple sources, empty results, partial failures (one source down), timezone/DST conversion, and verifying source links remain correct after merging.
-
 ---
 
 ### 2) Event Create/Edit/Delete
@@ -54,9 +51,6 @@ With every task and event organized in one format, Studious empowers students to
   **When** I click “Save”  
   **Then** the app prevents submission, highlights the invalid fields, and shows a clear error explaining what must be corrected.
 
-**Notes:**
-- Unit tests should include: valid create/edit/delete, invalid input validation, write failures from provider APIs, and ensuring no duplicate events occur on double-submit.
-
 ---
 
 ### 3) Secure Multi-Platform Authentication
@@ -76,9 +70,6 @@ With every task and event organized in one format, Studious empowers students to
 - **Given** I decide to remove a connected calendar source  
   **When** I click “Disconnect,” confirm the action, and the app processes the request  
   **Then** that source stops syncing immediately, stored access credentials for that source are removed/invalidated, and events from that source no longer appear after the next refresh (based on the app’s defined retention behavior).
-
-**Notes:**
-- Unit tests should include: connect/reconnect/disconnect flows, unauthorized handling, and verifying disconnected sources cannot sync until reauthorized.
 
 ---
 
