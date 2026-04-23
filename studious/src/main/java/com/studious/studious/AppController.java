@@ -59,6 +59,17 @@ public class AppController {
             }
         }
 
+        // Include manually-added events stored in session
+        @SuppressWarnings("unchecked")
+        List<CalendarEvent> manualEvents = (List<CalendarEvent>) session.getAttribute("manualEvents");
+        if (manualEvents != null) {
+            for (CalendarEvent e : manualEvents) {
+                if (e.getStartTime() != null && e.getStartTime().toLocalDate().equals(selected)) {
+                    events.add(e);
+                }
+            }
+        }
+
         events.sort(Comparator.comparing(CalendarEvent::getStartTime,
                 Comparator.nullsLast(Comparator.naturalOrder())));
 
@@ -95,6 +106,45 @@ public class AppController {
     @GetMapping("/add-event")
     public String addEvent() {
         return "add-event";
+    }
+
+    // Handles manual event submission from the add-event form
+    @PostMapping("/add-event")
+    public String addEventSubmit(
+            @RequestParam String eventName,
+            @RequestParam String eventDateTime,
+            @RequestParam(required = false) String eventDescription,
+            HttpSession session) {
+
+        LocalDate eventDate = LocalDate.now();
+        java.time.LocalDateTime dateTime;
+        try {
+            dateTime = java.time.LocalDateTime.parse(eventDateTime,
+                    java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
+            eventDate = dateTime.toLocalDate();
+        } catch (Exception e) {
+            dateTime = java.time.LocalDateTime.now();
+        }
+
+        CalendarEvent event = new CalendarEvent(
+                eventName,
+                dateTime,
+                dateTime.plusHours(1),
+                "manual",
+                null,
+                eventDescription
+        );
+
+        @SuppressWarnings("unchecked")
+        List<CalendarEvent> manualEvents = (List<CalendarEvent>) session.getAttribute("manualEvents");
+        if (manualEvents == null) {
+            manualEvents = new ArrayList<>();
+        }
+        manualEvents.add(event);
+        session.setAttribute("manualEvents", manualEvents);
+
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return "redirect:/calendar?date=" + eventDate.format(fmt);
     }
 
     // Returns the settings view, checking which integrations are connected
