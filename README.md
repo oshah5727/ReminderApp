@@ -13,105 +13,93 @@ With every task and event organized in one format, Studious empowers students to
 
 ## Functional Requirements
 
-## 1) Calendar Aggregation & Display
-**As a user, I want** Calendar Aggregation & Display  
-**So that I can** view all my academic and personal commitments in one unified interface.
+### 1) Unified Calendar View
+**As a** student  
+**I want** to connect multiple calendar sources and view them in one schedule  
+**So that I can** see all my academic, work, and personal commitments in one place.
 
-- **Given** I have connected my Canvas, Google Calendar, and Blackboard accounts with valid API keys  
-  **When** I open the main dashboard  
-  **Then** I see all upcoming events from all three platforms in chronological order with titles, dates, times, and platform source indicators.
+**Examples (Given / When / Then):**
+- **Given** I am signed in, my Canvas, Google Calendar, and Blackboard accounts are connected with valid access, and at least one source contains upcoming events  
+  **When** I open the dashboard, the app requests events from each source, normalizes timezones to my profile timezone, and merges results into one list  
+  **Then** I see a single chronological schedule with each event’s title, date, start/end time (or all-day), source label, and a working link to open the event/assignment in the original platform.
 
-- **Given** I have an upcoming assignment due in Canvas within 24 hours  
-  **When** my configured notification interval triggers  
-  **Then** I receive a text/email notification with the assignment name, due date, and a direct link to the Canvas assignment.
+- **Given** I have connected multiple sources and one source returns zero events for the selected week while other sources contain events  
+  **When** I select that week and refresh the schedule  
+  **Then** I still see all events from the other sources, and the empty source is clearly indicated as “no events found” (not an error), with the rest of the dashboard functioning normally.
 
-- **Given** I have multiple overlapping events scheduled across different calendars  
-  **When** the system syncs calendars and detects a time conflict  
-  **Then** the dashboard shows a warning indicator highlighting the conflicting events.
-
-### Notes / Test Coverage
-- Single vs. multiple calendar sources
-- Invalid API keys, expired tokens, token refresh/revocation
-- Rate limits, network failures
-- Timezone handling
-- OAuth flows for each platform
-- Security vulnerabilities (SQL injection, XSS, CSRF)
-- Encryption in transit and at rest
+- **Given** one of my connected sources has expired/invalid access (e.g., token revoked) but other sources are still valid  
+  **When** the system syncs and receives an unauthorized/failed response from that source  
+  **Then** events from valid sources still display, the failing source shows a clear “reconnect required” message, and the app provides a reconnect action without blocking access to my unified schedule.
 
 ---
 
-## 2) Event Management
-**As a user, I want** Event Management  
-**So that I can** create, edit, and delete events across all connected calendars.
+### 2) Event Create/Edit/Delete
+**As a** student  
+**I want** to create, edit, and delete events in the unified calendar  
+**So that I can** keep my schedule accurate without managing events separately across platforms.
 
-- **Given** I want to create a new study session event  
-  **When** I fill out the event form with title, date, time, and platform selection and submit  
-  **Then** the event is created on the selected platform and appears in the unified dashboard view.
+**Examples (Given / When / Then):**
+- **Given** I am signed in, at least one calendar is connected, and I have permission to write to the selected target calendar  
+  **When** I open “Create event,” enter a title, start date/time, end date/time (or all-day), optional description/location, choose a target calendar, and click “Save”  
+  **Then** the event is created in the selected source calendar, a confirmation message is shown, and the new event appears in my unified view with the correct time, details, and source label.
 
-- **Given** I need to change the time of an existing meeting  
-  **When** I edit the event and save the updated time  
-  **Then** the event updates on the original platform and the dashboard reflects the change.
+- **Given** an event exists in my unified view and it is editable (not read-only from the provider)  
+  **When** I select the event, change details (e.g., time from 2:00 PM to 4:00 PM), and save changes  
+  **Then** the update is sent to the original source, the unified view refreshes to show the new details, and the event keeps the same source label and link back to the provider.
 
-- **Given** I want a repeating weekly event  
-  **When** I set a recurrence pattern during event creation  
-  **Then** all instances of the recurring event appear on the appropriate dates in the calendar view.
-
-### Notes / Test Coverage
-- CRUD operations per platform
-- Sync correctness after modifications
-- Recurring event create/edit/delete
-- Platform-specific limitations and error handling
+- **Given** I enter invalid event data (e.g., missing title, end time before start time, or an invalid date)  
+  **When** I click “Save”  
+  **Then** the app prevents submission, highlights the invalid fields, and shows a clear error explaining what must be corrected.
 
 ---
 
-## 3) Secure Multi-Platform Authentication
-**As a user, I want** Secure Multi-Platform Authentication  
-**So that I can** safely connect multiple calendar sources without compromising my credentials.
+### 3) Secure Multi-Platform Authentication
+**As a** student  
+**I want** to securely connect and manage calendar integrations  
+**So that I can** link my accounts safely without exposing credentials or losing control of access.
 
-- **Given** I am a new user connecting Google Calendar  
-  **When** I click “Connect Google Calendar” and complete authorization  
-  **Then** I am redirected back to the app and my encrypted access token is stored in the database.
+**Examples (Given / When / Then):**
+- **Given** I am signed in and choose “Connect Google Calendar”  
+  **When** I complete the provider authorization flow, approve requested permissions, and return to the app  
+  **Then** the integration is saved, the app confirms the connection, and the next sync successfully imports events without the app storing my Google password.
 
-- **Given** my Canvas API token has expired  
-  **When** the system fetches Canvas events and receives an unauthorized response  
-  **Then** I am notified to reauthenticate and prompted to reconnect.
+- **Given** my Canvas access is expired/revoked and the app attempts to sync Canvas events  
+  **When** the provider responds with an unauthorized error  
+  **Then** the app pauses syncing for Canvas only, shows a reconnect prompt with clear instructions, and continues syncing/displaying events from other sources.
 
-- **Given** the app stores calendar tokens/keys for future sessions  
-  **When** credentials are saved  
-  **Then** they are encrypted using AES-256 and protected by secure environment-managed keys.
-
-### Notes / Test Coverage
-- OAuth flows and permissions
-- Token expiration/refresh scenarios
-- Penetration testing (SQL injection, XSS, CSRF)
-- Encryption standard validation
+- **Given** I decide to remove a connected calendar source  
+  **When** I click “Disconnect,” confirm the action, and the app processes the request  
+  **Then** that source stops syncing immediately, stored access credentials for that source are removed/invalidated, and events from that source no longer appear after the next refresh (based on the app’s defined retention behavior).
 
 ---
 
-## 4) Customizable Notification System
-**As a user, I want** a Customizable Notification System  
-**So that I can** receive timely reminders without notification fatigue.
+### 4) Configurable Reminders
+**As a** student  
+**I want** configurable reminders for events and deadlines  
+**So that I can** stay on track with timely alerts without being overwhelmed.
 
-- **Given** I set reminders to “1 day before” and “10 minutes before”  
-  **When** an exam is scheduled 24 hours from now  
-  **Then** I receive a reminder 24 hours before and another 10 minutes before the exam.
+**Examples (Given / When / Then):**
+- **Given** I have reminders enabled, I select email or SMS, and I set offsets (e.g., 1 day before and 10 minutes before) for events  
+  **When** an event approaches each offset time and the reminder scheduler runs  
+  **Then** I receive a reminder at each configured offset containing the event title, date/time, and a link to view details (and reminders are sent in my timezone).
 
-- **Given** I have 8 events in a single day  
-  **When** the system prepares reminders for that day  
-  **Then** reminders are consolidated into a digest plus urgent reminders as needed to reduce spam.
+- **Given** I choose SMS reminders but my phone number is missing or fails validation  
+  **When** I try to save notification settings  
+  **Then** the app blocks saving, explains what is wrong, and prompts me to add/verify a valid number before SMS can be enabled.
 
-- **Given** the notification service experiences downtime  
-  **When** the system attempts to send a scheduled reminder and it fails  
-  **Then** the reminder is queued for retry with exponential backoff and an alternate channel is used if available.
+- **Given** the notification provider temporarily fails to deliver a message  
+  **When** the system attempts to send a scheduled reminder and receives a failure response  
+  **Then** the reminder is queued for retry using backoff rules, the system avoids sending duplicates, and (if configured) falls back to an alternate channel such as email.
 
-### Notes / Test Coverage
-- Email vs. SMS delivery
-- Timezone correctness
-- Suppression/digest logic
-- Failure handling + retry behavior
+**Notes:**
+- Unit tests should include: multiple offsets per event, timezone/DST correctness, provider downtime + retries, and rescheduling reminders when an event time changes.
 
+### 5) Running the Application Prototype
+1. Clone the repository into the editor of your choice
+2. Open the terminal and change the directory to the project folder containing the pom.xml file
+3. Run mvn -f studious/pom.xml spring-boot:run
+Note: Java requirement version 18.0+
 
-## Class Diagram
 <img width="2816" height="1536" alt="UML Diagram" src="https://github.com/user-attachments/assets/472b1424-f770-4d45-a2cf-3bcecc2467a2" />
 
 ## JSON Schema

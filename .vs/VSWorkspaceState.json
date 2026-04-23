@@ -1,0 +1,18 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\studious",
+    "\\studious\\src",
+    "\\studious\\src\\main",
+    "\\studious\\src\\main\\java",
+    "\\studious\\src\\main\\java\\com",
+    "\\studious\\src\\main\\java\\com\\studious",
+    "\\studious\\src\\main\\java\\com\\studious\\studious",
+    "\\studious\\src\\main\\java\\com\\studious\\studious\\config",
+    "\\studious\\src\\main\\resources",
+    "\\studious\\src\\main\\resources\\static",
+    "\\studious\\src\\main\\resources\\static\\images"
+  ],
+  "SelectedNode": "\\studious\\src\\main\\java\\com\\studious\\studious\\AppController.java",
+  "PreviewInSolutionExplorer": false
+}
