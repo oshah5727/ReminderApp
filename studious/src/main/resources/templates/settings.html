@@ -274,8 +274,12 @@
                         <small>Import assignments and due dates from Canvas to stay organized</small>
                     </div>
                     <div>
-                        <button th:if="${!canvasConnected}" class="btn-connect">Connect</button>
-                        <button th:if="${canvasConnected}" class="btn-disconnect">Disconnect</button>
+                        <form th:if="${!canvasConnected}" action="/canvas/connect" method="post" style="display:inline;">
+                            <button type="submit" class="btn-connect">Connect</button>
+                        </form>
+                        <form th:if="${canvasConnected}" action="/canvas/disconnect" method="post" style="display:inline;">
+                            <button type="submit" class="btn-disconnect">Disconnect</button>
+                        </form>
                     </div>
                 </div>
             </div>
