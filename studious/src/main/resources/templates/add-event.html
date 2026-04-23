@@ -97,11 +97,57 @@
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             min-height: 600px;
+            max-width: 800px; /* Added max-width to keep the form readable */
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #2f6f3a;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #2f6f3a;
+        }
+
+        .submit-btn {
+            background-color: #2f6f3a;
+            color: #f7f1e7;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background-color: #1f4a26;
         }
     </style>
 </head>
 <body>
-    <!-- Vertical Navigation Sidebar -->
     <aside class="sidebar">
         <a href="/about" class="sidebar-brand" style="display: flex; align-items: center; gap: 0.5rem;">
             <img src="/images/StudiousLogo.png" alt="Studious Logo" style="height: 60px; width: auto;">
@@ -119,7 +165,6 @@
         </ul>
     </aside>
 
-    <!-- Main Content -->
     <main class="main-content">
         <div class="page-header">
             <h1>Add Events</h1>
@@ -127,7 +172,24 @@
         </div>
 
         <div class="content-container">
-            <!-- Add event form will go here -->
+            <form action="#" method="POST">
+                <div class="form-group">
+                    <label for="eventName">Event Name</label>
+                    <input type="text" id="eventName" name="eventName" placeholder="e.g., Doctor Appointment" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="eventDateTime">Date & Time</label>
+                    <input type="datetime-local" id="eventDateTime" name="eventDateTime" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="eventDescription">Description</label>
+                    <textarea id="eventDescription" name="eventDescription" rows="5" placeholder="Add any relevant details..."></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn">Submit Event</button>
+            </form>
         </div>
     </main>
 </body>
