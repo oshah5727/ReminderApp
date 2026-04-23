@@ -1,10 +1,13 @@
 package com.studious.studious;
 
+import com.studious.studious.model.User;
 import com.studious.studious.service.GoogleCalendarService;
+import com.studious.studious.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -16,14 +19,69 @@ public class AuthController {
     @Autowired
     private GoogleCalendarService googleCalendarService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/login")
     public String login() {
         return "login";
     }
 
+    // Handles the Login form submission (POST request from the browser)
+    @PostMapping("/login")
+    public String processLogin(
+            @RequestParam String username,      // The username field from the form
+            @RequestParam String password,      // The password field from the form
+            HttpSession session,                // The user's current browser session
+            RedirectAttributes redirectAttributes) {
+        try {
+            // Ask UserService to verify the credentials against the database.
+            // If correct, we get the full User object back.
+            User user = userService.authenticate(username, password);
+            // Store the user's identity in their session so other pages know who is logged in.
+            session.setAttribute("userId", user.getUsername());
+            session.setAttribute("loggedInUser", user.getFirstName());
+            // Redirect to the calendar page after a successful login
+            return "redirect:/calendar";
+        } catch (IllegalArgumentException e) {
+            // If authentication failed, send an error message back to the login page
+            redirectAttributes.addFlashAttribute("error", "Invalid username or password");
+            return "redirect:/auth/login";
+        }
+    }
+
     @GetMapping("/signup")
     public String signup() {
         return "signup";
+    }
+
+    // Handles the Sign Up form submission (POST request from the browser)
+    @PostMapping("/signup")
+    public String processSignup(
+            @RequestParam String firstname,         // Maps to the "firstname" input field
+            @RequestParam String lastname,          // Maps to the "lastname" input field
+            @RequestParam String email,             // Maps to the "email" input field
+            @RequestParam String username,          // Maps to the "username" input field
+            @RequestParam String password,          // Maps to the "password" input field
+            @RequestParam String confirmpassword,   // Maps to the "confirmpassword" input field
+            RedirectAttributes redirectAttributes) {
+        // First, check that both password fields match before touching the database
+        if (!password.equals(confirmpassword)) {
+            redirectAttributes.addFlashAttribute("error", "Passwords do not match");
+            return "redirect:/auth/signup";
+        }
+        try {
+            // Ask UserService to create the new user in the database.
+            // UserService also checks for duplicate usernames/emails and hashes the password.
+            userService.register(firstname, lastname, email, username, password);
+            // On success, send the user to the login page with a success message
+            redirectAttributes.addFlashAttribute("success", "Account created! Please log in.");
+            return "redirect:/auth/login";
+        } catch (IllegalArgumentException e) {
+            // If UserService threw an error (e.g. username taken), show it on the signup page
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            return "redirect:/auth/signup";
+        }
     }
 
     /**

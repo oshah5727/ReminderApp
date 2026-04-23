@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -144,15 +144,11 @@
     </nav>
     <div class="container">
         <h1>Login</h1>
-        <form action="/calendar" method="get">
-            <div><label>Username</label><input type="text" name="username" placeholder="Username"></div>
-            <div><label>Password</label><input type="password" name="password" placeholder="Password"></div>
-            <!-- TODO: Implement database authentication logic here -->
-            <!--
-                 - Validate username and password against database
-                 - Create user session
-                 - Handle login errors
-            -->
+        <div th:if="${error}" style="color:#721c24;background:#f8d7da;padding:0.6rem;border-radius:4px;margin-bottom:1rem;" th:text="${error}"></div>
+        <div th:if="${success}" style="color:#155724;background:#d4edda;padding:0.6rem;border-radius:4px;margin-bottom:1rem;" th:text="${success}"></div>
+        <form action="/auth/login" method="post">
+            <div><label>Username</label><input type="text" name="username" placeholder="Username" required></div>
+            <div><label>Password</label><input type="password" name="password" placeholder="Password" required></div>
             <button type="submit">Login</button>
         </form>
     </div>
