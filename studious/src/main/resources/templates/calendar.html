@@ -126,6 +126,27 @@
         .event-title a { color: #333; text-decoration: none; }
         .event-title a:hover { text-decoration: underline; }
         .event-source { font-size: 0.7rem; color: #aaa; }
+        .event-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-left: 0.5rem;
+        }
+        .action-link {
+            font-size: 0.8rem;
+            color: #2f6f3a;
+            text-decoration: none;
+        }
+        .action-link:hover { text-decoration: underline; }
+        .action-delete {
+            font-size: 0.8rem;
+            color: #a1302a;
+            border: none;
+            background: none;
+            cursor: pointer;
+            padding: 0;
+        }
+        .action-delete:hover { text-decoration: underline; }
         .no-events { color: #999; font-style: italic; }
     </style>
 </head>
@@ -195,6 +216,15 @@
                             <span th:if="${event.url == null}" th:text="${event.title}">Event</span>
                         </div>
                         <span class="event-source" th:text="${'[' + event.source + ']'}"></span>
+                        <div class="event-actions" th:if="${event.source == 'manual'}">
+                            <a class="action-link"
+                               th:href="@{/event/edit(eventId=${event.id},date=${#temporals.format(selectedDate, 'yyyy-MM-dd')})}">Edit</a>
+                            <form th:action="@{/event/delete}" method="post" style="display:inline;">
+                                <input type="hidden" name="eventId" th:value="${event.id}" />
+                                <input type="hidden" name="selectedDate" th:value="${#temporals.format(selectedDate, 'yyyy-MM-dd')}" />
+                                <button type="submit" class="action-delete">Delete</button>
+                            </form>
+                        </div>
                     </li>
                 </ul>
 

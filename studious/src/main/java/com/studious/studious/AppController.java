@@ -1,15 +1,5 @@
 package com.studious.studious;
 
-import com.studious.studious.model.CalendarEvent;
-import com.studious.studious.service.CanvasService;
-import com.studious.studious.service.GoogleCalendarService;
-import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
@@ -17,7 +7,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.studious.studious.model.CalendarEvent;
+import com.studious.studious.service.CanvasService;
+import com.studious.studious.service.GoogleCalendarService;
+
+import jakarta.servlet.http.HttpSession;
 
 // Handles routing for the main app pages
 @Controller
@@ -127,6 +130,7 @@ public class AppController {
         }
 
         CalendarEvent event = new CalendarEvent(
+            UUID.randomUUID().toString(),
                 eventName,
                 dateTime,
                 dateTime.plusHours(1),
@@ -145,6 +149,103 @@ public class AppController {
 
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return "redirect:/calendar?date=" + eventDate.format(fmt);
+    }
+
+    // Returns the edit event view for a manually-added event
+    @GetMapping("/event/edit")
+    public String editEvent(@RequestParam String eventId,
+                            @RequestParam(required = false) String date,
+                            HttpSession session,
+                            Model model) {
+        @SuppressWarnings("unchecked")
+        List<CalendarEvent> manualEvents = (List<CalendarEvent>) session.getAttribute("manualEvents");
+        if (manualEvents == null) {
+            return "redirect:/calendar";
+        }
+
+        CalendarEvent selectedEvent = null;
+        for (CalendarEvent event : manualEvents) {
+            if (eventId.equals(event.getId())) {
+                selectedEvent = event;
+                break;
+            }
+        }
+
+        if (selectedEvent == null) {
+            return (date != null) ? "redirect:/calendar?date=" + date : "redirect:/calendar";
+        }
+
+        DateTimeFormatter inputFmt = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+        model.addAttribute("eventId", selectedEvent.getId());
+        model.addAttribute("eventName", selectedEvent.getTitle());
+        model.addAttribute("eventDateTime", selectedEvent.getStartTime() != null ? selectedEvent.getStartTime().format(inputFmt) : "");
+        model.addAttribute("eventDescription", selectedEvent.getDescription() != null ? selectedEvent.getDescription() : "");
+        model.addAttribute("selectedDate", date);
+        return "edit-event";
+    }
+
+    // Handles manual event update from the edit-event form
+    @PostMapping("/event/update")
+    public String updateEventSubmit(
+            @RequestParam String eventId,
+            @RequestParam String eventName,
+            @RequestParam String eventDateTime,
+            @RequestParam(required = false) String eventDescription,
+            HttpSession session) {
+
+        LocalDate eventDate = LocalDate.now();
+        java.time.LocalDateTime dateTime;
+        try {
+            dateTime = java.time.LocalDateTime.parse(eventDateTime,
+                    java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
+            eventDate = dateTime.toLocalDate();
+        } catch (Exception e) {
+            dateTime = java.time.LocalDateTime.now();
+        }
+
+        @SuppressWarnings("unchecked")
+        List<CalendarEvent> manualEvents = (List<CalendarEvent>) session.getAttribute("manualEvents");
+        if (manualEvents != null) {
+            for (int i = 0; i < manualEvents.size(); i++) {
+                CalendarEvent current = manualEvents.get(i);
+                if (eventId.equals(current.getId())) {
+                    manualEvents.set(i, new CalendarEvent(
+                            eventId,
+                            eventName,
+                            dateTime,
+                            dateTime.plusHours(1),
+                            "manual",
+                            null,
+                            eventDescription
+                    ));
+                    break;
+                }
+            }
+            session.setAttribute("manualEvents", manualEvents);
+        }
+
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return "redirect:/calendar?date=" + eventDate.format(fmt);
+    }
+
+    // Deletes a manually-added event by ID
+    @PostMapping("/event/delete")
+    public String deleteEvent(
+            @RequestParam String eventId,
+            @RequestParam(required = false) String selectedDate,
+            HttpSession session) {
+
+        @SuppressWarnings("unchecked")
+        List<CalendarEvent> manualEvents = (List<CalendarEvent>) session.getAttribute("manualEvents");
+        if (manualEvents != null) {
+            manualEvents.removeIf(event -> eventId.equals(event.getId()));
+            session.setAttribute("manualEvents", manualEvents);
+        }
+
+        if (selectedDate != null && !selectedDate.isBlank()) {
+            return "redirect:/calendar?date=" + selectedDate;
+        }
+        return "redirect:/calendar";
     }
 
     // Returns the settings view, checking which integrations are connected

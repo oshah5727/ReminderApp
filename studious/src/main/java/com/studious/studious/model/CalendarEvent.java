@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
  */
 public class CalendarEvent {
 
+    private final String id;
     private final String title;
     private final LocalDateTime startTime;
     private final LocalDateTime endTime;
@@ -16,8 +17,9 @@ public class CalendarEvent {
     private final String url;
     private final String description;
 
-    public CalendarEvent(String title, LocalDateTime startTime, LocalDateTime endTime,
+    public CalendarEvent(String id, String title, LocalDateTime startTime, LocalDateTime endTime,
                          String source, String url, String description) {
+        this.id = id;
         this.title = title;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -26,6 +28,12 @@ public class CalendarEvent {
         this.description = description;
     }
 
+    public CalendarEvent(String title, LocalDateTime startTime, LocalDateTime endTime,
+                         String source, String url, String description) {
+        this(null, title, startTime, endTime, source, url, description);
+    }
+
+    public String getId() { return id; }
     public String getTitle() { return title; }
     public LocalDateTime getStartTime() { return startTime; }
     public LocalDateTime getEndTime() { return endTime; }
